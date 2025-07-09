@@ -1,12 +1,20 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { RolesGuard } from './auth/roles/roles.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
@@ -27,6 +35,8 @@ import { AppService } from './app.service';
     }),
 
     UsersModule,
+
+    AuthModule,
   ],
 })
 export class AppModule {}

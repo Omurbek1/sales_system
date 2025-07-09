@@ -56,4 +56,8 @@ export class UsersService {
   delete(id: string): Promise<void> {
     return this.usersRepo.delete(id).then(() => {});
   }
+  async findOne(username: string): Promise<User | undefined> {
+    const user = await this.usersRepo.findOne({ where: { login: username } });
+    return user === null ? undefined : user;
+  }
 }

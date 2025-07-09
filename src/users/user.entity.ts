@@ -5,20 +5,20 @@ export type UserRole = 'admin' | 'manager';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column({ unique: true })
-  login: string;
+  login!: string;
 
   @Column()
-  passwordHash: string;
+  passwordHash!: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @Column({ type: 'enum', enum: ['admin', 'manager'], default: 'manager' })
-  role: UserRole;
+  role!: UserRole;
 }

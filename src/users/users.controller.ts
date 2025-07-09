@@ -6,9 +6,13 @@ import {
   Param,
   Patch,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
+import { RolesGuard } from 'src/auth/roles/roles.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/roles/roles.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -25,6 +29,8 @@ export class UsersController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   create(@Body() body: Partial<User>): Promise<User> {
     return this.usersService.create(body);
   }
